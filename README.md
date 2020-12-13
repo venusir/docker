@@ -46,6 +46,7 @@ sudo systemctl restart docker
 
 [参考1：Docker 官方](https://docs.docker.com/engine/install/centos/)  
 [参考2：Docker 菜鸟教程](https://www.runoob.com/docker/centos-docker-install.html)
+[参考3：Docker 镜像加速](https://cr.console.aliyun.com/cn-zhangjiakou/instances/mirrors)
 
 ----------------------------------------------------------------
 
