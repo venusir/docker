@@ -29,6 +29,19 @@ sudo systemctl start docker
 ```
 sudo docker run hello-world
 ```
+* 镜像加速
+通过修改daemon配置文件/etc/docker/daemon.json来使用阿里云镜像加速器
+```
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://阿里云镜像加速器地址"] 
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
 * 参考文档  
   [参考1：Docker 官方](https://docs.docker.com/engine/install/centos/)  
   [参考2：Docker 菜鸟教程](https://www.runoob.com/docker/centos-docker-install.html)
