@@ -3,11 +3,11 @@ Docker-Compose 部署gitlab+redmine开发环境,并使用nginx反向代理
 
 ## docker centos
 
-* 安装yum-utils 提供了 yum-config-manager 可以安装yum源
+1. 安装yum-utils 提供了 yum-config-manager 可以安装yum源
 ```
 sudo yum install -y yum-utils
 ```
-* 设置yum源
+2. 设置yum源
 ```
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo  //官方源
 ```
@@ -17,20 +17,20 @@ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/cen
 ```
 sudo yum-config-manager --add-repo https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo //清华源
 ```
-* 安装docker
+3. 安装docker
  ```
  sudo yum install docker-ce docker-ce-cli containerd.io
  ```
-* 启动docker
+4. 启动docker
 ```
 sudo systemctl start docker
 ```
-* 验证docker
+5. 验证docker
 ```
 sudo docker run hello-world
 ```
-* 镜像加速
-通过修改daemon配置文件/etc/docker/daemon.json来使用阿里云镜像加速器
+6. 镜像加速  
+> 通过修改daemon配置文件/etc/docker/daemon.json来使用阿里云镜像加速器
 ```
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
