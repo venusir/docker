@@ -2,7 +2,7 @@
 Docker-Compose 部署gitlab+redmine开发环境,并使用nginx反向代理
 
 ## docker centos
-[CentOS Docker 安装](https://www.runoob.com/docker/centos-docker-install.html)
+[CentOS Docker 安装](https://www.runoob.com/docker/centos-docker-install.html)  
 [Install Docker Engine on CentOS](https://docs.docker.com/engine/install/centos/)
 
 ## linux alias
