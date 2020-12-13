@@ -32,7 +32,7 @@ sudo systemctl start docker
 sudo docker run hello-world
 ```
 6. 镜像加速  
-> 通过修改daemon配置文件/etc/docker/daemon.json来使用阿里云镜像加速器
+>通过修改daemon配置文件/etc/docker/daemon.json来使用阿里云镜像加速器
 ```
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
@@ -54,7 +54,7 @@ sudo systemctl restart docker
 ----------------------------------------------------------------
 
 ## linux alias
-> docker-compose取别名以减少命令字符
+>docker-compose取别名以减少命令字符
 1. 编辑bash命令文件
 ```
 sudo vim ~/.bashrc   //编辑对应的bashrc文件
