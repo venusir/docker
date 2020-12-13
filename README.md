@@ -27,8 +27,10 @@ sudo yum install -y yum-utils
     https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo
   ```
 
-[参考1：Docker 官方](https://docs.docker.com/engine/install/centos/)  
+[参考1：Docker 官方](https://docs.docker.com/engine/install/centos/)
 [参考2：Docker 菜鸟教程](https://www.runoob.com/docker/centos-docker-install.html)
+
+## docker-compose centos
 
 ## linux alias
 给docker-compose取别名以减少命令字符
