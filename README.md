@@ -1,6 +1,8 @@
 # docker-compose
 Docker-Compose 部署gitlab+redmine开发环境,并使用nginx反向代理
 
+----------------------------------------------------------------
+
 ## docker centos
 
 1. 安装yum-utils 提供了 yum-config-manager 可以安装yum源
@@ -46,7 +48,11 @@ sudo systemctl restart docker
   [参考1：Docker 官方](https://docs.docker.com/engine/install/centos/)  
   [参考2：Docker 菜鸟教程](https://www.runoob.com/docker/centos-docker-install.html)
 
+----------------------------------------------------------------
+
 ## docker-compose centos
+
+----------------------------------------------------------------
 
 ## linux alias
 给docker-compose取别名以减少命令字符
