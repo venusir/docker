@@ -2,6 +2,31 @@
 Docker-Compose 部署gitlab+redmine开发环境,并使用nginx反向代理
 
 ## docker centos
+
+* 安装yum-utils 提供了 yum-config-manager 可以安装yum源
+```
+sudo yum install -y yum-utils
+```
+* 设置yum源
+  * 官方源
+  ```
+  sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+  ```
+  * 阿里源
+  ```
+  sudo yum-config-manager \
+    --add-repo \
+    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+  ```
+  * 清华源
+  ```
+  sudo yum-config-manager \
+    --add-repo \
+    https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo
+  ```
+
 [参考1：Docker 官方](https://docs.docker.com/engine/install/centos/)  
 [参考2：Docker 菜鸟教程](https://www.runoob.com/docker/centos-docker-install.html)
 
