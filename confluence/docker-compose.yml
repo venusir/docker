@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+
+  confluence-postgres:
+    container_name: confluence-postgres
+    hostname: confluence-postgres
+    image: postgres
+    restart: always
+    networks:
+      - default
+      - dbnetwork
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: confluence
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      
+  confluence:
+    container_name: confluence
+    hostname: confluence
+    image: atlassian/confluence-server
+    restart: always
+    networks:
+      - default
+      - dbnetwork
+    depends_on:
+      - confluence-postgres
+    links:
+      - confluence-postgres
+    ports:
+      - 8090:8090
+      - 8091:8091
+    environment:
+      ATL_DB_TYPE: postgresql
+      ATL_JDBC_USER: confluence
+      ATL_JDBC_PASSWORD: 123456
+    volumes:
+      - ./confluence/logs:/opt/atlassian/confluence/logs
+      - ./confluence/confluence-data:/var/atlassian/confluence
+
+networks:
+  dbnetwork:
+    external: true
