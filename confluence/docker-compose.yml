@@ -41,7 +41,7 @@ services:
       ATL_JDBC_PASSWORD: 123456
       ATL_JDBC_URL: jdbc:postgresql://confluence-postgres:5432/confluence
     volumes:
-      - ./confluence/logs:/opt/atlassian/confluence/logs
+      #- ./confluence/logs:/opt/atlassian/confluence/logs
       - ./confluence/confluence-data:/var/atlassian/confluence
 
 networks:
