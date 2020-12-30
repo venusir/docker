@@ -36,6 +36,9 @@ services:
       - 8090:8090
       - 8091:8091
     environment:
+      ATL_TOMCAT_SCHEME: https
+      ATL_PROXY_PORT: 443
+      ATL_PROXY_NAME: confluence.rqysir609.cc
       ATL_DB_TYPE: postgresql
       ATL_JDBC_USER: confluence
       ATL_JDBC_PASSWORD: 123456
