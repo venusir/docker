@@ -39,6 +39,7 @@ services:
       ATL_TOMCAT_SCHEME: https
       ATL_PROXY_PORT: 443
       ATL_PROXY_NAME: confluence.rqysir609.cc
+      ATL_TOMCAT_SECURE: 'true'
       ATL_DB_TYPE: postgresql
       ATL_JDBC_USER: confluence
       ATL_JDBC_PASSWORD: 123456
