@@ -44,7 +44,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 
 #删除安装包
-sudo apt-get purge docker-ce
+#sudo apt-get purge docker-ce
 
 #删除镜像、容器、配置文件等内容
 #sudo rm -rf /var/lib/docker
