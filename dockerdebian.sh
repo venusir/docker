@@ -1,4 +1,6 @@
 #!/bin/bash
+#在debian环境下安装docker
+#参考官方文档https://docs.docker.com/engine/install/debian/
 
 #卸载旧版本
 sudo apt-get remove docker docker-engine docker.io containerd runc
