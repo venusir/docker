@@ -7,6 +7,9 @@ echo "${local_ip}"
 docker swarm init --advertise-addr ${local_ip} |tee swarm_token.log
 #获取swarm token
 swarm_token=$(sed -n '/--token/p' swarm_token.log)
+
+echo "${swarm_token}"
+
 #添加节点
 docker swarm join --token ${swarm_token} "${local_ip}":2377
 
