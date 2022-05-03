@@ -1,6 +1,6 @@
 ### debian安装docker
 ```
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/dockerdebian.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-install-debian.sh | bash
 ```
 
 ### docker 安装 nginx
