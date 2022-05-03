@@ -45,6 +45,17 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
+#安装docker compose
+
+#卸载旧版本
+sudo rm /usr/local/bin/docker-compose
+
+#安装新版本
+curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+
+#获得权限
+sudo chmod +x /usr/local/bin/docker-compose
+
 #删除安装包
 #sudo apt-get purge docker-ce
 
