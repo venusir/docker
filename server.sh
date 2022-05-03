@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [ -f "/home/docker/nginx-compose.yml" ] then
+if [ -f "/home/docker/nginx-compose.yml" ] 
+then
   echo "Exists"
 else
   echo "No Exists"
