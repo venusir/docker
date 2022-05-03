@@ -3,7 +3,10 @@
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/dockerdebian.sh | bash
 ```
 
-
+### docker 安装 nginx
+```
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/server.sh | bash
+```
 
 * [Docker](https://github.com/rqysir609/docker-compose/wiki/Docker)  
 * [Alias](https://github.com/rqysir609/docker-compose/wiki/Alias)  
