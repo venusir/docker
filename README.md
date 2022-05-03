@@ -5,7 +5,7 @@ curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-instal
 
 ### docker 安装 nginx
 ```
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx%2Btrojan%2Bfrp.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp.sh | bash
 ```
 
 * [Docker](https://github.com/rqysir609/docker-compose/wiki/Docker)  
