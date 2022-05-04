@@ -8,3 +8,4 @@ curl https://raw.githubusercontent.com/rqysir609/docker/main/nginx/conf/conf.d/d
 curl https://raw.githubusercontent.com/rqysir609/docker/main/nginx/nginx-compose.yml -O
 
 #部署
+
