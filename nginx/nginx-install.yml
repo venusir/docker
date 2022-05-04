@@ -19,4 +19,4 @@ services:
       #- ./nginx/html:/usr/share/nginx/html
 
 networks:
-  nginx
+  nginx:
