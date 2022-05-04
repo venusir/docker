@@ -6,11 +6,11 @@ services:
     hostname: nginx
     image: nginx
     restart: always
-    ports:
-      - 80:80
-      - 443:443
+    # ports:
+      # - 80:80
+      # - 443:443
     networks:
-      - nginx
+      - host
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf.d/:/etc/nginx/conf.d/
@@ -18,5 +18,5 @@ services:
       - ./nginx/logs/:/var/log/nginx/
       #- ./nginx/html:/usr/share/nginx/html
 
-networks:
-  nginx:
+# networks:
+  # nginx:
