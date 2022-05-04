@@ -1,9 +1,10 @@
 version: '3'
+
 services:
   nginx:
-    container_name: nginx
-    hostname: nginx
     image: nginx
+    hostname: nginx
+    container_name: nginx
     restart: always
     ports:
       - 80:80
@@ -16,5 +17,6 @@ services:
       - ./nginx/ssl/:/etc/nginx/ssl/
       - ./nginx/logs/:/var/log/nginx/
       #- ./nginx/html:/usr/share/nginx/html
-    networks:
-      - nginx
+   
+   networks:
+     - nginx
