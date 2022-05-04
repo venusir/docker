@@ -16,5 +16,5 @@ services:
       - ./nginx/ssl/:/etc/nginx/ssl/
       - ./nginx/logs/:/var/log/nginx/
       #- ./nginx/html:/usr/share/nginx/html
-    networks:
-      - nginx
+  networks:
+    nginx:
