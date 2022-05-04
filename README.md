@@ -1,14 +1,14 @@
-### docker-debian
+### install-debian
 ```
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-install-debian.sh | bash
 ```
 
-### docker-nginx
+### nginx
 ```
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/install.sh | bash
 ```
 
-### docker-trojan-frp
+### nginx-trojan-frp
 ```
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp/install.sh | bash
 ```
