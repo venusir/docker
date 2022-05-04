@@ -8,6 +8,11 @@ curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-instal
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/install.sh | bash
 ```
 
+### docker-trojan-frp
+```
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp/install.sh | bash
+```
+
 * [Docker](https://github.com/rqysir609/docker-compose/wiki/Docker)  
 * [Alias](https://github.com/rqysir609/docker-compose/wiki/Alias)  
 * [Nginx](https://github.com/rqysir609/docker-compose/wiki/Nginx)  
