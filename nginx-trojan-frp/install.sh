@@ -11,7 +11,7 @@ if [ ! -f ./conf.d/default.conf ]; then
 fi
 
 #下载nginx compose文件
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/docker-compose.yml -O
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp/docker-compose.yml -O
 
 #部署
 docker-compose up -d
