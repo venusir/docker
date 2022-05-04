@@ -5,7 +5,7 @@ curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-instal
 
 ### docker-nginx
 ```
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/nginx-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/install.sh | bash
 ```
 
 * [Docker](https://github.com/rqysir609/docker-compose/wiki/Docker)  
