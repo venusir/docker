@@ -1,11 +1,11 @@
-### debian安装docker
+### docker-debian
 ```
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-install-debian.sh | bash
 ```
 
-### docker 安装 nginx
+### docker-nginx
 ```
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/nginx-install.sh | bash
 ```
 
 * [Docker](https://github.com/rqysir609/docker-compose/wiki/Docker)  
