@@ -17,5 +17,11 @@ services:
       - ./nginx/logs/:/var/log/nginx/
       #- ./nginx/html:/usr/share/nginx/html
 
-# networks:
-  # nginx:
+  trojan-go:
+    container_name: trojan-go
+    hostname: trojan-go
+    image: teddysun/trojan-go
+    restart: always
+    network_mode: host
+    volumes:
+      - ./trojan-go:/etc/trojan-go
