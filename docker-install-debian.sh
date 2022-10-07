@@ -33,7 +33,7 @@ echo \
 sudo apt-get update
 
 #安装最新版本的 Docker Engine-Community 和 containerd
-sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+sudo yes|apt-get install docker-ce docker-ce-cli containerd.io
 
 #设置阿里云镜像加速器
 sudo mkdir -p /etc/docker
