@@ -6,7 +6,7 @@
 sudo apt-get remove docker docker-engine docker.io containerd runc
 
 #更新 apt 包索引
-sudo apt-get update
+sudo apt-get -y update
 
 #设置存储库
 sudo apt-get -y install \
