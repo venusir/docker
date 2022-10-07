@@ -9,7 +9,7 @@ sudo apt-get remove docker docker-engine docker.io containerd runc
 sudo apt-get update
 
 #设置存储库
-sudo apt-get install \
+sudo apt-get -y install \
     ca-certificates \
     curl \
     gnupg \
