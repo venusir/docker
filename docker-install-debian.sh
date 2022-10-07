@@ -30,7 +30,7 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 #更新 apt 包索引
-sudo apt-get update
+sudo apt-get -y update
 
 #安装最新版本的 Docker Engine-Community 和 containerd
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
