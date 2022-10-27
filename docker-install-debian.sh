@@ -39,7 +39,7 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors":["https://2vel7s8h.mirror.aliyuncs.com"]
+  "registry-mirrors":["https://code.mirror.aliyuncs.com"]
 }
 EOF
 sudo systemctl daemon-reload
