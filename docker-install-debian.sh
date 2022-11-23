@@ -35,19 +35,19 @@ sudo apt-get -y update
 #安装最新版本的 Docker Engine-Community 和 containerd
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
-# 输入镜像加速地址
-read -p "请输入镜像加速地址" mirrorurl
-echo mirrorurl
+# # 输入镜像加速地址
+# read -p "请输入镜像加速地址" mirrorurl
+# echo mirrorurl
 
-#设置阿里云镜像加速器
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors":["$mirrorurl"]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+# #设置阿里云镜像加速器
+# sudo mkdir -p /etc/docker
+# sudo tee /etc/docker/daemon.json <<-'EOF'
+# {
+  # "registry-mirrors":["url"]
+# }
+# EOF
+# sudo systemctl daemon-reload
+# sudo systemctl restart docker
 
 #安装docker compose
 
