@@ -8,6 +8,11 @@ curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-instal
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/install.sh | bash
 ```
 
+### pve-init
+```
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/pve_init.sh | bash
+```
+
 ### nginx-trojan-frp
 ```
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp/install.sh | bash
