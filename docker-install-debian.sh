@@ -35,19 +35,15 @@ sudo apt-get -y update
 #安装最新版本的 Docker Engine-Community 和 containerd
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
-# # 输入镜像加速地址
-# read -p "请输入镜像加速地址" mirrorurl
-# echo mirrorurl
-
-# #设置阿里云镜像加速器
-# sudo mkdir -p /etc/docker
-# sudo tee /etc/docker/daemon.json <<-'EOF'
-# {
-  # "registry-mirrors":["url"]
-# }
-# EOF
-# sudo systemctl daemon-reload
-# sudo systemctl restart docker
+#设中科大镜像加速器
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors":["https://docker.mirrors.ustc.edu.cn/"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
 
 #安装docker compose
 
@@ -63,7 +59,7 @@ curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compo
 sudo chmod +x /usr/local/bin/docker-compose
 
 #删除安装包
-#sudo apt-get purge docker-ce
+sudo apt-get purge docker-ce
 
 #删除镜像、容器、配置文件等内容
 #sudo rm -rf /var/lib/docker
