@@ -42,7 +42,7 @@ else
 fi
 
 #echo "***添加Proxmox VE非订阅存储库***"
-#echo "deb http://mirrors.ustc.edu.cn/proxmox/debian/pve ${CODE_NAME} pve-no-subscription" | tee /etc/apt/sources.list.d/pve-no-subscription.list
+echo "deb http://mirrors.ustc.edu.cn/proxmox/debian/pve ${CODE_NAME} pve-no-subscription" | tee /etc/apt/sources.list.d/pve-no-subscription.list
 
 echo "***删除企业存储库***"
 if [ -e /etc/apt/sources.list.d/pve-enterprise.list ];then
