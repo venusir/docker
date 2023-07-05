@@ -37,7 +37,7 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
 #设中科大镜像加速器
 sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
+sudo tee /etc/docker/daemon.json << EOF
 {
   "registry-mirrors":["https://docker.mirrors.ustc.edu.cn/"]
 }
