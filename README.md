@@ -20,7 +20,7 @@ curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-
 
 ### nas-tool
 ```
-curl -fsSL [https://raw.githubusercontent.com/rqysir609/docker/main/nginx-trojan-frp/install.sh](https://raw.githubusercontent.com/rqysir609/docker/main/media/install.sh) | bash
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/media/install.sh | bash
 ```
 
 * [Docker](https://github.com/rqysir609/docker-compose/wiki/Docker)  
