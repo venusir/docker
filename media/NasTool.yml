@@ -6,7 +6,7 @@ services:
       - 3000:3000
     volumes:
       - /etc/nastool/config:/config
-      - ./media:/media
+      - /opt/media:/media
     environment:
       - PUID=1000
       - PGID=1000
