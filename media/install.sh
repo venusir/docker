@@ -4,4 +4,4 @@
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/media/NasTool.yml -O
 
 #部署
-docker-compose -f NasTool.yml  up -d
+sudo docker-compose -f NasTool.yml  up -d
