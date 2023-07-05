@@ -1,0 +1,19 @@
+version: "3"
+services:
+  nas-tools:
+    image: nastool/nas-tools:v2.9.1
+    ports:
+      - 3000:3000
+    volumes:
+      - /etc/nastool/config:/config
+      - ./media:/media
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - NASTOOL_AUTO_UPDATE=false
+      - NASTOOL_CN_UPDATE=false
+    restart: always
+    network_mode: bridge
+    hostname: nas-tools
+    container_name: nas-tools
