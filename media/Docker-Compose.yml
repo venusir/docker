@@ -13,6 +13,7 @@ services:
       - UMASK=022
       - NASTOOL_AUTO_UPDATE=false
       - NASTOOL_CN_UPDATE=false
+      - REPO_URL=https://github.com/wangyan/nas-tools.git
     restart: always
     network_mode: bridge
     hostname: nas-tools
