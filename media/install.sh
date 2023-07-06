@@ -6,7 +6,7 @@ if [ -f ./NasTool.yml ]; then
 fi
 
 #下载nginx compose文件
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/media/Docker-Compose.yml -O
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/media/docker-compose.yml -O
 
 #部署
 sudo docker-compose up -d
