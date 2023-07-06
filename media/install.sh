@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #下载nginx默认配置
-if [ -f ./NasTool.yml ]; then
-  rm -rf NasTool.yml
+if [ -f ./docker-compose.yml ]; then
+  rm -rf docker-compose.yml
 fi
 
 #下载nginx compose文件
