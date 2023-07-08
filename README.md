@@ -1,6 +1,6 @@
-### install-debian
+### docker install
 ```
-curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-install-debian.sh | bash
+curl -sSL https://get.docker.com/ | sh
 ```
 
 ### nginx
