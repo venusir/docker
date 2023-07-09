@@ -54,7 +54,7 @@ services:
       # - 6881:6881/udp
       
   chinesesubfinder:
-    image: allanpk716/chineseSubFinder:latest
+    image: allanpk716/chinesesubfinder:latest
     container_name: chinesesubfinder
     network_mode: host
     restart: unless-stopped
