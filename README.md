@@ -3,6 +3,11 @@
 curl -sSL https://get.docker.com/ | sh
 ```
 
+### docker install
+```
+curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/docker-install-debian.sh | bash
+```
+
 ### nginx
 ```
 curl -fsSL https://raw.githubusercontent.com/rqysir609/docker/main/nginx/install.sh | bash
