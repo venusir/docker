@@ -1,67 +1,108 @@
 #!/bin/bash
 
+# è¯ä¹¦è·¯å¾„
+CERTPATH=/etc/cert
+mkdir -p /etc/cert
+
+# è¾“å…¥åŸŸå
+read -p "è¯·è¾“å…¥åŸŸå:" DOMAINNAMW
+# è¾“å…¥Cloudflare Token
+read -p "è¯·è¾“å…¥Cloudflare Token:" CFTOKEN
+# è¾“å…¥Cloudflare Account
+read -p "è¯·è¾“å…¥Cloudflare Account:" CFACCOUNT
+
+export CF_Token="${CFTOKEN}"
+export CF_Account_ID="${CFACCOUNT}"
+
+# æ›´æ–°è½¯ä»¶æº
 apt-get update
 
-echo "°²×°Docker"
-# curl -sSL https://get.docker.com/ | sh
+# å®‰è£…curl
+apt-get install curl
 
-mkdir -p /etc/nginx
-mkdir -p /etc/nginx/conf.d
-mkdir -p /usr/share/nginx/html
+# å¯ç”¨ BBR TCP æ‹¥å¡žæŽ§åˆ¶ç®—æ³•
+echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+sysctl -p
 
-CF_Token="AAA"
-CF_Zone_ID="AAA"
-CF_Account_ID="AAA"
+# å®‰è£…x-uiï¼š
+bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
-# Éú³ÉÈÝÆ÷
-docker run --name nginx -p 9001:80 -d nginx
-# ½«ÈÝÆ÷nginx.confÎÄ¼þ¸´ÖÆµ½ËÞÖ÷»ú
-docker cp nginx:/etc/nginx/nginx.conf /etc/nginx/nginx.conf
-# ½«ÈÝÆ÷conf.dÎÄ¼þ¼ÐÏÂÄÚÈÝ¸´ÖÆµ½ËÞÖ÷»ú
-docker cp nginx:/etc/nginx/conf.d/. /etc/nginx/conf.d
-# ½«ÈÝÆ÷ÖÐµÄhtmlÎÄ¼þ¼Ð¸´ÖÆµ½ËÞÖ÷»ú
-docker cp nginx:/usr/share/nginx/html/. /usr/share/nginx/html
-# É¾³ýÕýÔÚÔËÐÐµÄnginxÈÝÆ÷
-docker rm -f nginx
+# å®‰è£…nginx
+apt-get install nginx
 
-# µ¼ÈëDocker-Compose
-cat > $PWD/docker-compose.yml << EOF
-version: "3"
-services:
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PGID=1000
-      - PUID=1000
-    volumes:
-      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /etc/nginx/conf.d:/etc/nginx/conf.d
-      - /var/log/nginx:/var/log/nginx
-      - /root/certs:/root/certs
- 
-  acme:
-    image: neilpang/acme.sh
-    container_name: acme.sh
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PGID=1000
-      - PUID=1000
-      - CF_Token=${CF_Token}
-      - CF_Zone_ID=${CF_Zone_ID}
-      - CF_Account_ID=${CF_Account_ID}
-    volumes:
-      - /root/acme.sh:/acme.sh
-      - /root/certs:/root/certs
+cat > /etc/nginx/conf.d/${DOMAINNAMW}.conf << EOF
+server {
+	listen 443 ssl;	
+    listen [::]:443 ssl;
+	
+	server_name ${DOMAINNAMW};  #ä½ çš„åŸŸå
+	ssl_certificate       ${CERTPATH}/${DOMAINNAMW}.crt;  #è¯ä¹¦ä½ç½®
+	ssl_certificate_key   ${CERTPATH}/${DOMAINNAMW}.key;  #ç§é’¥ä½ç½®
+	
+	ssl_session_timeout 1d;
+	ssl_session_cache shared:MozSSL:10m;
+	ssl_session_tickets off;
+	ssl_protocols    TLSv1.2 TLSv1.3;
+	ssl_prefer_server_ciphers off;
+
+	location / {
+		proxy_pass http://ransys.cn/; #ä¼ªè£…ç½‘å€
+		proxy_redirect off;
+		proxy_ssl_server_name on;
+		sub_filter_once off;
+		sub_filter "ransys.cn" \$server_name;
+		proxy_set_header Host "ransys.cn";
+		proxy_set_header Referer \$http_referer;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header User-Agent \$http_user_agent;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto https;
+		proxy_set_header Accept-Encoding "";
+		proxy_set_header Accept-Language "zh-CN";
+	}
+
+	# location /ray {   #åˆ†æµè·¯å¾„
+		# proxy_redirect off;
+		# proxy_pass http://127.0.0.1:10000; #Xrayç«¯å£
+		# proxy_http_version 1.1;
+		# proxy_set_header Upgrade \$http_upgrade;
+		# proxy_set_header Connection "upgrade";
+		# proxy_set_header Host \$host;
+		# proxy_set_header X-Real-IP \$remote_addr;
+		# proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+	# }
+	
+	location /xui {   #xuiè·¯å¾„
+		proxy_redirect off;
+		proxy_pass http://127.0.0.1:54321;  #xuiç›‘å¬ç«¯å£
+		proxy_http_version 1.1;
+		proxy_set_header Host \$host;
+	}
+}
+
+server {
+	listen 80;
+	location /.well-known/ {
+		   root /var/www/html;
+		}
+	location / {
+			rewrite ^(.*)\$ https://\$host\$1 permanent;
+		}
+}
 EOF
 
-# Ê×´ÎÔËÐÐÏÈ½øÈëÈÝÆ÷Éú³ÉÖ¤Êé
-# acme.sh --issue --dns dns_dp -d sleele.com -d *.sleele.com
-# µÚÒ»´ÎÐèÒªÓÃ×Ô¼ºµÄÓÊÏä×¢²á docker exec -i acme-ecc acme.sh --register-account -m my@example.com
-# docker exec -i acme-ecc acme.sh --issue --dns dns_dp -d sleele.com -d *.sleele.com --keylength ec-256
-# È»ºó²¿ÊðÖ¤Êéµ½Ö¸¶¨ÎÄ¼þ¼Ð
-# acme.sh --deploy -d sleele.com --deploy-hook docker
-# docker exec -i acme-ecc acme.sh --deploy -d sleele.com --ecc --deploy-hook docker
+# å®‰è£…acmeï¼š
+curl https://get.acme.sh | sh
+# æ·»åŠ è½¯é“¾æŽ¥ï¼š
+ln -s  /root/.acme.sh/acme.sh /usr/local/bin/acme.sh
+# åˆ‡æ¢CAæœºæž„ï¼š 
+acme.sh --set-default-ca --server letsencrypt
+# ç”³è¯·è¯ä¹¦(dns å¯ä»¥ç”³è¯·æ³›åŸŸåè¯ä¹¦)ï¼š 
+acme.sh  --issue --dns dns_cf -d ${DOMAINNAMW} -d *.${DOMAINNAMW} -k ec-256
+# å®‰è£…è¯ä¹¦ï¼š
+acme.sh --install-cert -d ${DOMAINNAMW} --ecc --key-file ${CERTPATH}/${DOMAINNAMW}.key  --fullchain-file ${CERTPATH}/${DOMAINNAMW}.crt --reloadcmd "systemctl force-reload nginx"
+
+# å®‰è£…Docker
+# curl -sSL https://get.docker.com/ | sh
+
