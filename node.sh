@@ -18,9 +18,9 @@ docker run --name nginx -p 9001:80 -d nginx
 # 将容器nginx.conf文件复制到宿主机
 docker cp nginx:/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 # 将容器conf.d文件夹下内容复制到宿主机
-docker cp nginx:/etc/nginx/conf.d /etc/nginx/conf.d
+docker cp nginx:/etc/nginx/conf.d/. /etc/nginx/conf.d
 # 将容器中的html文件夹复制到宿主机
-docker cp nginx:/usr/share/nginx/html /usr/share/nginx/html
+docker cp nginx:/usr/share/nginx/html/. /usr/share/nginx/html
 # 删除正在运行的nginx容器
 docker rm -f nginx
 
@@ -39,7 +39,6 @@ services:
     volumes:
       - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
       - /etc/nginx/conf.d:/etc/nginx/conf.d
-      - /var/www/html:/var/www/html
       - /var/log/nginx:/var/log/nginx
       - /root/certs:/root/certs
  
