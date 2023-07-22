@@ -5,11 +5,11 @@ CERTPATH=/etc/cert
 mkdir -p /etc/cert
 
 # 输入域名
-read -p "请输入域名:" DOMAINNAMW
+read -p "Please enter your domain : " DOMAINNAMW
 # 输入Cloudflare Token
-read -p "请输入Cloudflare Token:" CFTOKEN
+read -p "Please enter your Cloudflare Token : " CFTOKEN
 # 输入Cloudflare Account
-read -p "请输入Cloudflare Account:" CFACCOUNT
+read -p "Please enter your Cloudflare Account : " CFACCOUNT
 
 export CF_Token="${CFTOKEN}"
 export CF_Account_ID="${CFACCOUNT}"
@@ -25,7 +25,7 @@ echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 sysctl -p
 
-# 安装x-ui：
+# 安装x-ui面板
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
 # 安装nginx
@@ -47,19 +47,10 @@ server {
 	ssl_prefer_server_ciphers off;
 
 	location / {
-		proxy_pass http://ransys.cn/; #伪装网址
-		proxy_redirect off;
-		proxy_ssl_server_name on;
-		sub_filter_once off;
-		sub_filter "ransys.cn" \$server_name;
-		proxy_set_header Host "ransys.cn";
-		proxy_set_header Referer \$http_referer;
-		proxy_set_header X-Real-IP \$remote_addr;
-		proxy_set_header User-Agent \$http_user_agent;
 		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto https;
-		proxy_set_header Accept-Encoding "";
-		proxy_set_header Accept-Language "zh-CN";
+		proxy_set_header Host \$http_host;
+		proxy_redirect off;
+		proxy_pass http://127.0.0.1:8080;
 	}
 
 	# location /ray {   #分流路径
@@ -92,17 +83,26 @@ server {
 }
 EOF
 
-# 安装acme：
+# 安装acme
 curl https://get.acme.sh | sh
-# 添加软链接：
+# 添加软链接
 ln -s  /root/.acme.sh/acme.sh /usr/local/bin/acme.sh
-# 切换CA机构： 
+# 切换CA机构
 acme.sh --set-default-ca --server letsencrypt
-# 申请证书(dns 可以申请泛域名证书)： 
+# 申请证书
 acme.sh  --issue --dns dns_cf -d ${DOMAINNAMW} -d *.${DOMAINNAMW} -k ec-256
-# 安装证书：
+# 安装证书
 acme.sh --install-cert -d ${DOMAINNAMW} --ecc --key-file ${CERTPATH}/${DOMAINNAMW}.key  --fullchain-file ${CERTPATH}/${DOMAINNAMW}.crt --reloadcmd "systemctl force-reload nginx"
 
 # 安装Docker
-# curl -sSL https://get.docker.com/ | sh
+curl -sSL https://get.docker.com/ | sh
 
+# 安装filebrowser网盘 https://filebrowser.org/
+docker run --name filebrowser \
+    -v /srv/filebrowser:/srv \
+    -v /srv/filebrowser/filebrowser.db:/database/filebrowser.db \
+    -v /srv/filebrowser/settings.json:/config/settings.json \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -p 8080:80 \
+    -d filebrowser/filebrowser:latest
