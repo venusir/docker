@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 证书路径
+FILEBROWSERPORT=8080
 CERTPATH=/etc/cert
 mkdir -p /etc/cert
 
@@ -23,10 +24,12 @@ apt-get install curl
 # 启用 BBR TCP 拥塞控制算法
 echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
-sysctl -p
+sysctl -p-
 
 # 安装x-ui面板
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
+
+# 只能在用IP:端口访问XUI面板并修改监听地址，监听端口及路径后才能使用域名经nginx代理访问
 
 # 安装nginx
 apt-get install nginx
@@ -50,12 +53,12 @@ server {
 		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 		proxy_set_header Host \$http_host;
 		proxy_redirect off;
-		proxy_pass http://127.0.0.1:54321;
+		proxy_pass http://127.0.0.1:${FILEBROWSERPORT};
 	}
 
 	# location /ray {   #分流路径
 		# proxy_redirect off;
-		# proxy_pass http://127.0.0.1:10000; #Xray端口
+		# proxy_pass http://127.0.0.1:1000; #Xray端口
 		# proxy_http_version 1.1;
 		# proxy_set_header Upgrade \$http_upgrade;
 		# proxy_set_header Connection "upgrade";
@@ -104,5 +107,5 @@ docker run --name filebrowser \
     -v /srv/filebrowser/settings.json:/config/settings.json \
     -e PUID=1000 \
     -e PGID=1000 \
-    -p 8080:80 \
+    -p ${FILEBROWSERPORT}:80 \
     -d filebrowser/filebrowser:latest
