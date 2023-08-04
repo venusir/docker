@@ -37,7 +37,7 @@ apt-get install nginx
 cat > /etc/nginx/conf.d/${DOMAINNAMW}.conf << EOF
 server {
 	listen 443 ssl;	
-    listen [::]:443 ssl;
+        listen [::]:443 ssl;
 	
 	server_name ${DOMAINNAMW};  #你的域名
 	ssl_certificate       ${CERTPATH}/${DOMAINNAMW}.crt;  #证书位置
