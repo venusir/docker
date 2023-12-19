@@ -30,6 +30,7 @@ sysctl -p
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
 # 只能在用IP:端口访问XUI面板并修改监听地址，监听端口及路径后才能使用域名经nginx代理访问
+# XUI面板套用Cloudflare的CDN必须使用Cloudflare支持的CDN端口才能访问
 
 # 安装nginx
 apt-get install nginx
