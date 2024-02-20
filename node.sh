@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 证书路径
-FILEBROWSERPORT=8080
+FILEBROWSERPORT=5689
 CERTPATH=/etc/cert
 mkdir -p /etc/cert
 
