@@ -70,7 +70,7 @@ server {
 	
 	location /xui {   #xui路径
 		proxy_redirect off;
-		proxy_pass http://127.0.0.1:54321;  #xui监听端口
+		proxy_pass http://127.0.0.1:2053;  #xui监听端口
 		proxy_http_version 1.1;
 		proxy_set_header Host \$host;
 	}
