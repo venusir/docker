@@ -44,8 +44,8 @@ server {
 	ssl_certificate       ${CERTPATH}/${DOMAINNAMW}.crt;  #证书位置
 	ssl_certificate_key   ${CERTPATH}/${DOMAINNAMW}.key;  #私钥位置
 	
-	error_log /var/log/nginx/${DOMAINNAMW}_error.log
-	access_log /var/log/nginx/${DOMAINNAMW}_access.log
+	error_log /var/log/nginx/${DOMAINNAMW}_error.log;
+	access_log /var/log/nginx/${DOMAINNAMW}_access.log;
 	
 	ssl_session_timeout 1d;
 	ssl_session_cache shared:MozSSL:10m;
