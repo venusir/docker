@@ -37,8 +37,8 @@ apt-get install nginx
 
 cat > /etc/nginx/conf.d/${DOMAINNAMW}.conf << EOF
 server {
-	listen 443 ssl;	
-        listen [::]:443 ssl;
+	listen 443 ssl;
+    listen [::]:443 ssl;
 	
 	server_name ${DOMAINNAMW};  #你的域名
 	ssl_certificate       ${CERTPATH}/${DOMAINNAMW}.crt;  #证书位置
@@ -79,11 +79,11 @@ server {
 server {
 	listen 80;
 	location /.well-known/ {
-		   root /var/www/html;
-		}
+		root /var/www/html;
+	}
 	location / {
-			rewrite ^(.*)\$ https://\$host\$1 permanent;
-		}
+		rewrite ^(.*)\$ https://\$host\$1 permanent;
+	}
 }
 EOF
 
@@ -103,6 +103,7 @@ curl -sSL https://get.docker.com/ | sh
 
 # 安装filebrowser网盘 https://filebrowser.org/
 docker run --name filebrowser \
+	--restart=always \
     -v /srv/filebrowser:/srv \
     -v /srv/filebrowser/filebrowser.db:/database/filebrowser.db \
     -v /srv/filebrowser/settings.json:/config/settings.json \
