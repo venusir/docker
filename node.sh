@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 证书路径
-FILEBROWSERPORT=5689
+FILEBROWSERPORT=8080
 CERTPATH=/etc/cert
 mkdir -p /etc/cert
 
@@ -30,22 +30,18 @@ sysctl -p
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
 # 只能在用IP:端口访问XUI面板并修改监听地址，监听端口及路径后才能使用域名经nginx代理访问
-# XUI面板套用Cloudflare的CDN必须使用Cloudflare支持的CDN端口才能访问
 
 # 安装nginx
 apt-get install nginx
 
 cat > /etc/nginx/conf.d/${DOMAINNAMW}.conf << EOF
 server {
-	listen 443 ssl;
+    listen 443 ssl;	
     listen [::]:443 ssl;
 	
 	server_name ${DOMAINNAMW};  #你的域名
 	ssl_certificate       ${CERTPATH}/${DOMAINNAMW}.crt;  #证书位置
 	ssl_certificate_key   ${CERTPATH}/${DOMAINNAMW}.key;  #私钥位置
-	
-	error_log /var/log/nginx/${DOMAINNAMW}_error.log;
-	access_log /var/log/nginx/${DOMAINNAMW}_access.log;
 	
 	ssl_session_timeout 1d;
 	ssl_session_cache shared:MozSSL:10m;
@@ -73,7 +69,7 @@ server {
 	
 	location /xui {   #xui路径
 		proxy_redirect off;
-		proxy_pass http://127.0.0.1:2053;  #xui监听端口
+		proxy_pass http://127.0.0.1:54321;  #xui监听端口
 		proxy_http_version 1.1;
 		proxy_set_header Host \$host;
 	}
@@ -82,11 +78,11 @@ server {
 server {
 	listen 80;
 	location /.well-known/ {
-		root /var/www/html;
-	}
+		   root /var/www/html;
+		}
 	location / {
-		rewrite ^(.*)\$ https://\$host\$1 permanent;
-	}
+			rewrite ^(.*)\$ https://\$host\$1 permanent;
+		}
 }
 EOF
 
@@ -106,7 +102,6 @@ curl -sSL https://get.docker.com/ | sh
 
 # 安装filebrowser网盘 https://filebrowser.org/
 docker run --name filebrowser \
-	--restart=always \
     -v /srv/filebrowser:/srv \
     -v /srv/filebrowser/filebrowser.db:/database/filebrowser.db \
     -v /srv/filebrowser/settings.json:/config/settings.json \
