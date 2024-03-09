@@ -38,3 +38,48 @@ systemctl enable AdGuardHome
 
 #停止
 #systemctl stop AdGuardHome
+
+#mosdns
+
+#下载mosdns
+wget https://github.com/IrineSistiana/mosdns/releases/download/v5.1.3/mosdns-linux-amd64.zip
+#下载配置文件
+wget https://github.com/rqysir609/docker/raw/main/Dns/DnsConfig.zip
+
+#创建所需目录及文件
+mkdir /etc/mosdns
+mkdir /var/mosdns
+touch /var/disable-ads.txt
+
+#解压mosdns
+unzip -o -d mosdns mosdns-linux-amd64.zip
+#解压配置文件
+unzip DnsConfig.zip
+
+#移动所需文件到指定目录
+mv /root/mosdns/mosdns /usr/bin/
+chmod +x /usr/bin/mosdns
+mv etc/mosdns/* /etc/mosdns/
+mv var/mosdns/* /var/mosdns/
+
+#删除临时文件夹
+rm -rf mosdns
+rm -rf etc
+rm -rf var
+
+#删除临时文件
+rm -rf mosdns-linux-amd64.zip
+rm -rf DnsConfig.zip
+
+#安装服务
+#mosdns service install -d 工作目录绝对路径 -c 配置文件路径
+mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
+
+#启动mosdns
+mosdns service start
+
+#开机启动
+systemctl enable mosdns.service
+
+检查状态
+systemctl status mosdns.service
