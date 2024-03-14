@@ -9,9 +9,9 @@ wget https://github.com/rqysir609/docker/raw/main/dns_v2raya/dns_v2raya.zip
 mkdir /etc/mosdns
 mkdir /var/mosdns
 touch /var/disable-ads.txt
-mv mosdns/etc/mosdns/* /etc/mosdns
-mv mosdns/var/mosdns/* /var/mosdns
-mv mosdns/v2dat /opt
+mv dns_v2raya/mosdns/etc/mosdns/* /etc/mosdns
+mv dns_v2raya/mosdns/var/mosdns/* /var/mosdns
+mv dns_v2raya/mosdns/v2dat /opt
 chmod +x /opt/v2dat
 
 # 安装 mosdns
@@ -53,8 +53,12 @@ systemctl stop AdGuardHome
 
 # 编辑cron
 mkdir /etc/mycron
-mv /mosdns/mosdns_update.sh /etc/mycron
+mv dns_v2raya//mosdns/mosdns_update.sh /etc/mycron
 chmod +x /etc/mycron/mosdns_update.sh
 
 # 添加
 echo "30 4 * * * root /etc/mycron/mosdns_update.sh" >> /etc/crontab
+
+rm -rf dns_v2raya
+rm -rf dns_v2raya.zip
+rm -rf mosdns-linux-amd64.zip
