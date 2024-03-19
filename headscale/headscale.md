@@ -1,16 +1,3 @@
----
-created: 2024-03-19T21:00:52 (UTC +08:00)
-tags: []
-source: https://www.dongvps.com/2022-09-02/%E5%BC%80%E6%BA%90%E7%89%88tailscale%EF%BC%8Cheadscale%E6%90%AD%E5%BB%BA/
-author: 
----
-
-# 开源版tailscale，headscale搭建 - DongVPS
-
-> ## Excerpt
-> Headscale 是什么 上一期视频讲了tailscale，Tailscale 是一个收费的vpn服务，免费用户有诸多限制，为了破除这些限制，有开源项目重新把tailscale实现了一遍，项目名称叫...
-
----
 ## **Headscale 部署**
 
 Headscale 部署在 Linux 主机上，随便找台有独立ip的vps就可以了，但是要注意，如果需要穿透的内网无法打洞成功那么流量就会由服务器中转，这意味着穿透后的速度会直接的受限于节点跟服务器之间的网络情况，所以尽量选择离你近的服务器，即使打洞失败了，至少网络还是稳定的，通畅的。
