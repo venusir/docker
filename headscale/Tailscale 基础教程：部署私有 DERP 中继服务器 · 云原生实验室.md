@@ -1,5 +1,5 @@
 ---
-created: 2024-03-20T17:42:11 (UTC +08:00)
+created: 2024-03-20T17:44:40 (UTC +08:00)
 tags: [WireGuard,Tailscale,Headscale,]
 source: https://icloudnative.io/posts/custom-derp-servers/
 author: 米开朗基杨
@@ -11,7 +11,7 @@ author: 米开朗基杨
 > 本文给大家介绍了 STUN 对于辅助 NAT 穿透的意义，科普了几种常见的中继协议，包含 Tailscale 自研的 DERP 协议。最后手把手教大家如何自建私有的 DERP 服务器，并让 Tailscale 使用我们自建的 DERP 服务器。
 
 ---
-![图片描述: 2022-03-27-11-54-F9DnXG.png](https://jsd.cdn.zzko.cn/gh/yangchuansheng/imghosting3@main/uPic/2022-03-27-11-54-F9DnXG.png)
+![图片描述: 2022-03-27-11-54-F9DnXG.png](Tailscale%20%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%EF%BC%9A%E9%83%A8%E7%BD%B2%E7%A7%81%E6%9C%89%20DERP%20%E4%B8%AD%E7%BB%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%20%C2%B7%20%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%9E%E9%AA%8C%E5%AE%A4/2022-03-27-11-54-F9DnXG.png)
 
 [上篇文章](https://icloudnative.io/posts/how-to-set-up-or-migrate-headscale/#%E6%80%BB%E7%BB%93)介绍了如何使用 `Headscale` 替代 Tailscale 官方的控制服务器，并接入各个平台的客户端。本文将会介绍如何让 Tailscale 使用自定义的 DERP Servers。可能很多人都不知道 `DERP` 是个啥玩意儿，没关系，我先从**中继服务器**开始讲起。
 
@@ -33,7 +33,7 @@ NAT 按照 **NAT 映射行为**和**有状态防火墙行为**可以分为多种
 -   笔记本向 STUN 服务器发送一个请求：“从你的角度看，我的地址什么？”
 -   STUN 服务器返回一个响应：“我看到你的 UDP 包是从这个地址来的：`ip:port`”。
 
-![图片描述: 2022-03-26-17-27-yqHlMG.jpg](https://jsd.cdn.zzko.cn/gh/yangchuansheng/imghosting3@main/uPic/2022-03-26-17-27-yqHlMG.jpg)
+![图片描述: 2022-03-26-17-27-yqHlMG.jpg](Tailscale%20%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%EF%BC%9A%E9%83%A8%E7%BD%B2%E7%A7%81%E6%9C%89%20DERP%20%E4%B8%AD%E7%BB%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%20%C2%B7%20%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%9E%E9%AA%8C%E5%AE%A4/2022-03-26-17-27-yqHlMG.jpg)
 
 ## 中继是什么[#](https://icloudnative.io/posts/custom-derp-servers/#%e4%b8%ad%e7%bb%a7%e6%98%af%e4%bb%80%e4%b9%88)
 
@@ -68,7 +68,7 @@ DERP 即 Detoured Encrypted Routing Protocol，这是 Tailscale 自研的一个�
 -   它是一个**通用目的包中继协议，运行在 HTTP 之上**，而大部分网络都是允许 HTTP 通信的。
 -   它根据目的公钥（destination’s public key）来中继加密的流量（encrypted payloads）。
 
-![Tailscale 会自动选择离目标节点最近的 DERP server 来中继流量](https://jsd.cdn.zzko.cn/gh/yangchuansheng/imghosting3@main/uPic/2022-03-26-19-02-zLDv51.svg)
+![Tailscale 会自动选择离目标节点最近的 DERP server 来中继流量](Tailscale%20%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%EF%BC%9A%E9%83%A8%E7%BD%B2%E7%A7%81%E6%9C%89%20DERP%20%E4%B8%AD%E7%BB%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%20%C2%B7%20%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%9E%E9%AA%8C%E5%AE%A4/2022-03-26-19-02-zLDv51.svg)
 
 Tailscale 使用的算法很有趣，**所有客户端之间的连接都是先选择 DERP 模式（中继模式），这意味着连接立即就能建立（优先级最低但 100% 能成功的模式），用户不用任何等待**。然后开始并行地进行路径发现，通常几秒钟之后，我们就能发现一条更优路径，然后将现有连接透明升级（upgrade）过去，变成点对点连接（直连）。
 
@@ -172,7 +172,7 @@ $ tailscale netcheck Report: * UDP: true * IPv4: yes, xxxxx:57068 * IPv6: no * M
 
 `tailscale netcheck` 实际上只检测 `3478/udp` 的端口， 就算 netcheck 显示能连，也不一定代表 12345 端口可以转发流量。最简单的办法是直接打开 DERP 服务器的 URL：https://xxxx:12345，如果看到如下页面，且地址栏的 SSL 证书标签显示正常可用，那才是真没问题了。
 
-![图片描述: 2022-03-27-11-21-dZ5dtZ.png](https://jsd.cdn.zzko.cn/gh/yangchuansheng/imghosting3@main/uPic/2022-03-27-11-21-dZ5dtZ.png)
+![图片描述: 2022-03-27-11-21-dZ5dtZ.png](Tailscale%20%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%EF%BC%9A%E9%83%A8%E7%BD%B2%E7%A7%81%E6%9C%89%20DERP%20%E4%B8%AD%E7%BB%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%20%C2%B7%20%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%9E%E9%AA%8C%E5%AE%A4/2022-03-27-11-21-dZ5dtZ.png)
 
 查看与通信对端的连接方式：
 
