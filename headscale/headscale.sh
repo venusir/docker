@@ -44,13 +44,16 @@ curl -sSL https://get.docker.com/ | sh
 
 # -----------------------headscale--------------------------------
 
-# 创建目录用来存储数据与证书：
+# 创建配置目录
 mkdir -p /var/lib/headscale
 
-# 创建空的 SQLite 数据库文件：
+# 创建目录用来存储数据与证书
+mkdir -p /var/lib/headscale
+
+# 创建空的 SQLite 数据库文件
 touch /var/lib/headscale/db.sqlite
 
-# 下载Headscale 配置文件：
+# 下载Headscale 配置文件
 wget https://github.com/juanfont/headscale/raw/main/config-example.yaml -O /etc/headscale/config.yaml
 
 # 修改相关配置文件，比如配置文件中配置 127.0.0.1 的话，那么就只能本机访问。这里修改为 0.0.0.0 那么就所有的 ip 都能访问。
