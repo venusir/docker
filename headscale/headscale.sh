@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOMAINNAME=rqysir609.cc
+
 # -----------------------tool--------------------------------
 # 更新apt
 apt-get update
@@ -21,6 +23,10 @@ systemctl enable nginx
 mkdir -p /etc/headscale
 
 # -----------------------acme--------------------------------
+
+# 创建证书目录
+CERTPATH=/etc/cert
+mkdir -p /etc/cert
 
 # 安装acme
 curl https://get.acme.sh | sh
@@ -45,7 +51,7 @@ curl -sSL https://get.docker.com/ | sh
 # -----------------------headscale--------------------------------
 
 # 创建配置目录
-mkdir -p /var/lib/headscale
+mkdir -p /etc/headscale
 
 # 创建目录用来存储数据与证书
 mkdir -p /var/lib/headscale
@@ -60,13 +66,13 @@ wget https://github.com/juanfont/headscale/raw/main/config-example.yaml -O /etc/
 sed -i 's/127.0.0.1/0.0.0.0/g' /home/docker/headscale/config/config.yaml
 
 # 域名填自己的
-sed -i 's#http://0.0.0.0:8080#https://headscale.yourname.com#g' /etc/headscale/config.yaml
+sed -i 's#http://0.0.0.0:8080#https://headscale.${DOMAINNAME}#g' /etc/headscale/config.yaml
 
 # 修改 dns 配置文件，如果不进行修改，那么登录时选择接受服务器的 dns 地址就会出现域名无法解析的情况。注意，这里的 dns 地址可以有多个，如果有需要自行添加即可。
 #sed -i 's/1\.1\.1\.1/119.29.29.29/g' /home/docker/headscale/config/config.yaml
 
 # 客户端可以通过 主机名 + 用户 + 基础域名 访问任意一台终端，所以这里修改下基础域名[根域名]，根据自己的实际域名进行填写。
-sed -i 's/example.com/yourname.com/' /etc/headscale/config.yaml
+sed -i 's/example.com/${DOMAINNAME}/' /etc/headscale/config.yaml
 
 # 设置客户端随机端口，这里是听见有说不开机随机端口可能出现只能加入一台客户端的情况，为了保险还是选择开启。
 sed -i 's/randomize_client_port: false/randomize_client_port: true/' /etc/headscale/config.yaml
@@ -89,12 +95,12 @@ headscale serve
 docker run -d \
 --name headscale-webui \
 --restart always \
--v /home/docker/headscale/config:/etc/headscale/:ro \
--v /home/docker/headscale/web-ui/data:/data \
+-v /etc/headscale:/etc/headscale/:ro \
+-v /etc/headscale/web-ui/data:/data \
 -u root \
 -p 5000:5000 \
--e HS_SERVER=https://headscale.amjun.com \ # 
--e DOMAIN_NAME=https://headscale.amjun.com \ # 反向代理后的域名，必须要先设置好！
+-e HS_SERVER=https://headscale.${DOMAINNAME}  \ # 
+-e DOMAIN_NAME=https://headscale.${DOMAINNAME}  \ # 反向代理后的域名，必须要先设置好！
 -e SCRIPT_NAME=/admin \
 -e AUTH_TYPE=Basic \
 -e BASIC_AUTH_USER=admin \
@@ -103,13 +109,13 @@ docker run -d \
 --restart always \
 ifargle/headscale-webui:latest
 
-cat > /etc/nginx/conf.d/${DOMAINNAME}.conf << EOF
+cat > /etc/nginx/conf.d/headscale.${DOMAINNAME}.conf << EOF
 server {
     listen       443 ssl;
     listen  [::]:443 ssl;
-    server_name  headscale.amjun.com;
-    ssl_certificate  /etc/nginx/conf.d/cert/amjun.com.cer;
-    ssl_certificate_key /etc/nginx/conf.d/cert/amjun.com.key;
+    server_name  headscale.${DOMAINNAME};
+    ssl_certificate  /etc/cert/${DOMAINNAME}.cer;
+    ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
  
     location ^~/ {
         proxy_pass http://localhost:8080/;
@@ -133,7 +139,7 @@ server {
  
 server {
     listen 80;
-    server_name  headscale.amjun.com;
+    server_name  headscale.${DOMAINNAME};
     rewrite ^(.*)$ https://$host:443$1 permanent;
 }
 EOF
@@ -146,18 +152,18 @@ docker run -d \
 -p 12345:12345 \
 -p 3478:3478/udp \
 -e DERP_ADDR=:12345 \
--e DERP_DOMAIN=derper.your-domain.com \
+-e DERP_DOMAIN=derper.${DOMAINNAME} \
 -e DERP_VERIFY_CLIENTS=false \
 --restart always \
 yangchuansheng/derper
 
-cat > /etc/nginx/conf.d/${DOMAINNAME}.conf << EOF
+cat > /etc/nginx/conf.d/derper.${DOMAINNAME}.conf << EOF
 server {
     listen       443 ssl;
     listen  [::]:443 ssl;
-    server_name  derper.your-domain.com;
-    ssl_certificate  /etc/nginx/conf.d/cert/your-domain.com/your-domain.com.cer;
-    ssl_certificate_key /etc/nginx/conf.d/cert/your-domain.com/your-domain.com.key;
+    server_name  derper.${DOMAINNAME};
+    ssl_certificate  /etc/cert/${DOMAINNAME}.cer;
+    ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
  
     location / {
         proxy_pass http://localhost:12345/;
@@ -174,7 +180,7 @@ server {
  
 server {
     listen 80;
-    server_name  derper.your-domain.com;
+    server_name  derper.${DOMAINNAME};
     rewrite ^(.*)$ https://$host:443$1 permanent;
 }
 EOF
@@ -193,7 +199,7 @@ regions:
     nodes:
       - name: 900a
         regionid: 900
-        hostname: derper.your-domain.com
+        hostname: derper.${DOMAINNAME}
         # ipv4: ip
         stunport: 3478
         stunonly: false
