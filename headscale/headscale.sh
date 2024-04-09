@@ -115,7 +115,7 @@ server {
     listen       443 ssl;
     listen  [::]:443 ssl;
     server_name  headscale.${DOMAINNAME};
-    ssl_certificate  /etc/cert/${DOMAINNAME}.cer;
+    ssl_certificate  /etc/cert/${DOMAINNAME}.crt;
     ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
  
     location ^~/ {
@@ -163,7 +163,7 @@ server {
     listen       443 ssl;
     listen  [::]:443 ssl;
     server_name  derper.${DOMAINNAME};
-    ssl_certificate  /etc/cert/${DOMAINNAME}.cer;
+    ssl_certificate  /etc/cert/${DOMAINNAME}.crt;
     ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
  
     location / {
