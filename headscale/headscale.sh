@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DOMAINNAME=rqysir609.cc
+WEBUIKEY=\"$(openssl rand -base64 32)\"
 
 # -----------------------tool--------------------------------
 # 更新apt
@@ -99,13 +100,13 @@ docker run -d \
 -v /etc/headscale/web-ui/data:/data \
 -u root \
 -p 5000:5000 \
--e HS_SERVER=https://headscale.${DOMAINNAME}  \ # 
--e DOMAIN_NAME=https://headscale.${DOMAINNAME}  \ # 反向代理后的域名，必须要先设置好！
+-e HS_SERVER=https://headscale.${DOMAINNAME}  \ 
+-e DOMAIN_NAME=https://headscale.${DOMAINNAME}  \
 -e SCRIPT_NAME=/admin \
 -e AUTH_TYPE=Basic \
 -e BASIC_AUTH_USER=admin \
 -e BASIC_AUTH_PASS=admin \
--e KEY="2uHP6BSVocX+wcWU5mzuXA7JvnZA70UaTadB8L1heOo=" \
+-e KEY=${WEBUIKEY} \
 --restart always \
 ifargle/headscale-webui:latest
 
