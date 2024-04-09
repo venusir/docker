@@ -119,7 +119,7 @@ server {
     ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
  
     location ^~/ {
-        proxy_pass http://localhost:8080/;
+        proxy_pass http://127.0.0.1:8080/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
@@ -132,7 +132,7 @@ server {
     }
  
     location ^~/admin/ {
-        proxy_pass http://localhost:5000/admin/;
+        proxy_pass http://127.0.0.1:5000/admin/;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
@@ -167,7 +167,7 @@ server {
     ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
  
     location / {
-        proxy_pass http://localhost:12345/;
+        proxy_pass http://127.0.0.1:12345/;
         proxy_redirect https:// https://;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
