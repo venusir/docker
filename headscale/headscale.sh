@@ -60,10 +60,10 @@ mkdir -p /var/lib/headscale
 touch /var/lib/headscale/db.sqlite
 
 # 下载Headscale 配置文件
-wget https://github.com/juanfont/headscale/raw/main/config-example.yaml -O /etc/headscale/config.yaml
+wget https://github.com/rqysir609/docker/raw/main/headscale/config-example.yaml -O /etc/headscale/config.yaml
 
 # 修改相关配置文件，比如配置文件中配置 127.0.0.1 的话，那么就只能本机访问。这里修改为 0.0.0.0 那么就所有的 ip 都能访问。
-sed -i 's/127.0.0.1/0.0.0.0/g' /home/docker/headscale/config/config.yaml
+#sed -i 's/127.0.0.1/0.0.0.0/g' /home/docker/headscale/config/config.yaml
 
 # 域名填自己的
 sed -i 's#http://0.0.0.0:8080#https://headscale.${DOMAINNAME}#g' /etc/headscale/config.yaml
@@ -75,7 +75,7 @@ sed -i 's#http://0.0.0.0:8080#https://headscale.${DOMAINNAME}#g' /etc/headscale/
 sed -i 's/example.com/${DOMAINNAME}/' /etc/headscale/config.yaml
 
 # 设置客户端随机端口，这里是听见有说不开机随机端口可能出现只能加入一台客户端的情况，为了保险还是选择开启。
-sed -i 's/randomize_client_port: false/randomize_client_port: true/' /etc/headscale/config.yaml
+#sed -i 's/randomize_client_port: false/randomize_client_port: true/' /etc/headscale/config.yaml
 
 #启动headscale
 docker run -d \

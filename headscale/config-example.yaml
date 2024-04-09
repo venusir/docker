@@ -10,19 +10,19 @@
 #
 # https://myheadscale.example.com:443
 #
-server_url: http://127.0.0.1:8080
+server_url: http://0.0.0.0:8080
 
 # Address to listen to / bind to on the server
 #
 # For production:
 # listen_addr: 0.0.0.0:8080
-listen_addr: 127.0.0.1:8080
+listen_addr: 0.0.0.0:8080
 
 # Address to listen to /metrics, you may want
 # to keep this endpoint private to your internal
 # network
 #
-metrics_listen_addr: 127.0.0.1:9090
+metrics_listen_addr: 0.0.0.0:9090
 
 # Address to listen for gRPC.
 # gRPC is used for controlling a headscale server
@@ -32,7 +32,7 @@ metrics_listen_addr: 127.0.0.1:9090
 #
 # For production:
 # grpc_listen_addr: 0.0.0.0:50443
-grpc_listen_addr: 127.0.0.1:50443
+grpc_listen_addr: 0.0.0.0:50443
 
 # Allow the gRPC admin interface to run in INSECURE
 # mode. This is not recommended as the traffic will
@@ -106,7 +106,7 @@ derp:
 
   # List of externally available DERP maps encoded in JSON
   urls:
-    - https://controlplane.tailscale.com/derpmap/default
+  #  - https://controlplane.tailscale.com/derpmap/default
 
   # Locally available DERP map files encoded in YAML
   #
@@ -116,7 +116,8 @@ derp:
   #
   # paths:
   #   - /etc/headscale/derp-example.yaml
-  paths: []
+  paths:
+    - /etc/headscale/derp.yaml
 
   # If enabled, a worker will be set up to periodically
   # refresh the given sources and update the derpmap
@@ -220,7 +221,7 @@ dns_config:
 
   # List of DNS servers to expose to clients.
   nameservers:
-    - 1.1.1.1
+    - 119.29.29.29
 
   # NextDNS (see https://tailscale.com/kb/1218/nextdns/).
   # "abc123" is example NextDNS ID, replace with yours.
@@ -336,4 +337,4 @@ logtail:
 # Enabling this option makes devices prefer a random port for WireGuard traffic over the
 # default static port 41641. This option is intended as a workaround for some buggy
 # firewall devices. See https://tailscale.com/kb/1181/firewalls/ for more information.
-randomize_client_port: false
+randomize_client_port: true
