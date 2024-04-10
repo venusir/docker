@@ -115,33 +115,33 @@ server {
     listen       443 ssl;
     listen  [::]:443 ssl;
     server_name  headscale.${DOMAINNAME};
-    ssl_certificate  /etc/cert/${DOMAINNAME}.crt;
-    ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
+    ssl_certificate  /etc/cert/headscale.${DOMAINNAME}.crt;
+    ssl_certificate_key /etc/cert/headscale.${DOMAINNAME}.key;
  
     location ^~/ {
         proxy_pass http://127.0.0.1:8080/;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-        proxy_set_header Host $server_name;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection \$connection_upgrade;
+        proxy_set_header Host \$server_name;
         proxy_redirect https:// https://;
         proxy_buffering off;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$http_x_forwarded_proto;
     }
  
     location ^~/admin/ {
         proxy_pass http://127.0.0.1:5000/admin/;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
     }
 }
  
 server {
     listen 80;
     server_name  headscale.${DOMAINNAME};
-    rewrite ^(.*)$ https://$host:443$1 permanent;
+    rewrite ^(.*)\$ https://\$host:443\$1 permanent;
 }
 EOF
 
@@ -163,18 +163,18 @@ server {
     listen       443 ssl;
     listen  [::]:443 ssl;
     server_name  derper.${DOMAINNAME};
-    ssl_certificate  /etc/cert/${DOMAINNAME}.crt;
-    ssl_certificate_key /etc/cert/${DOMAINNAME}.key;
+    ssl_certificate  /etc/cert/derper.${DOMAINNAME}.crt;
+    ssl_certificate_key /etc/cert/derper.${DOMAINNAME}.key;
  
     location / {
         proxy_pass http://127.0.0.1:12345/;
         proxy_redirect https:// https://;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         add_header Content-Security-Policy upgrade-insecure-requests;
     }
 }
@@ -182,7 +182,7 @@ server {
 server {
     listen 80;
     server_name  derper.${DOMAINNAME};
-    rewrite ^(.*)$ https://$host:443$1 permanent;
+    rewrite ^(.*)\$ https://\$host:443\$1 permanent;
 }
 EOF
 
@@ -191,7 +191,7 @@ EOF
 #配置修改后，记得重启下 nginx，这里需要使用域名或者 ip + 端口能够访问到 derp 页面。
 
 #创建derp.yaml
-cat > var/headscale/derp.yaml << EOF
+cat > /etc/headscale/derp.yaml << EOF
 regions:
   900:
     regionid: 900
