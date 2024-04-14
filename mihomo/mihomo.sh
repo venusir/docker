@@ -1,5 +1,8 @@
 #!/bin/bash
 
+apt-get update
+apt-get install git -y
+
 echo "开始创建 /etc/mihomo 目录"
 sudo mkdir -p /etc/mihomo
 echo "/etc/mihomo 目录创建完成"
