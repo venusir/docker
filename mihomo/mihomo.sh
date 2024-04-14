@@ -40,13 +40,19 @@ echo "开始创建 systemd 服务"
 
 tee /etc/systemd/system/mihomo.service > /dev/null <<EOF
 [Unit]
-Description=mihomo daemon, A rule-based proxy in Go.
-After=network.target
+Description=mihomo Daemon, Another Clash Kernel.
+After=network.target NetworkManager.service systemd-networkd.service iwd.service
 
 [Service]
 Type=simple
+LimitNPROC=500
+LimitNOFILE=1000000
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_TIME CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_TIME CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
 Restart=always
+ExecStartPre=/usr/bin/sleep 1s
 ExecStart=/usr/local/bin/mihomo -d /etc/mihomo
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target
@@ -60,6 +66,9 @@ systemctl enable mihomo
 
 echo "立即启动 mihomo 服务"
 systemctl start mihomo
+
+#echo "立即重启 mihomo 服务"
+#systemctl reload mihomo
 
 echo "检查 mihomo 服务状态"
 systemctl status mihomo

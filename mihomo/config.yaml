@@ -1,0 +1,171 @@
+# port: 7890 # HTTP(S) 代理服务器端口
+# socks-port: 7891 # SOCKS5 代理端口
+mixed-port: 10801 # HTTP(S) 和 SOCKS 代理混合端口
+# redir-port: 7892 # 透明代理端口，用于 Linux 和 MacOS
+
+# Transparent proxy server port for Linux (TProxy TCP and TProxy UDP)
+# tproxy-port: 7893
+
+allow-lan: true # 允许局域网连接
+bind-address: "*" # 绑定 IP 地址，仅作用于 allow-lan 为 true，'*'表示所有地址
+authentication: # http,socks入口的验证用户名，密码
+  - "username:password"
+skip-auth-prefixes: # 设置跳过验证的IP段
+  - 127.0.0.1/8
+  - ::1/128
+lan-allowed-ips: # 允许连接的 IP 地址段，仅作用于 allow-lan 为 true, 默认值为0.0.0.0/0和::/0
+  - 0.0.0.0/0
+  - ::/0
+lan-disallowed-ips: # 禁止连接的 IP 地址段, 黑名单优先级高于白名单, 默认值为空
+  - 192.168.0.3/32
+
+#  find-process-mode has 3 values:always, strict, off
+#  - always, 开启，强制匹配所有进程
+#  - strict, 默认，由 mihomo 判断是否开启
+#  - off, 不匹配进程，推荐在路由器上使用此模式
+find-process-mode: strict
+
+mode: rule
+
+#自定义 geodata url
+geox-url:
+  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+
+geo-auto-update: false # 是否自动更新 geodata
+geo-update-interval: 24 # 更新间隔，单位：小时
+
+# Matcher implementation used by GeoSite, available implementations:
+# - succinct (default, same as rule-set)
+# - mph (from V2Ray, also `hybrid` in Xray)
+# geosite-matcher: succinct
+
+log-level: debug # 日志等级 silent/error/warning/info/debug
+
+# 配置 WEB UI 目录，使用 http://{{external-controller}}/ui 访问
+external-ui: /etc/mihomo/ui
+external-ui-name: xd
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+
+# Tun 配置
+tun:
+  enable: false
+  stack: system # gvisor/mixed
+  dns-hijack:
+    - 0.0.0.0:53 # 需要劫持的 DNS
+  # auto-detect-interface: true # 自动识别出口网卡
+  # auto-route: true # 配置路由表
+  # mtu: 9000 # 最大传输单元
+  # gso: false # 启用通用分段卸载, 仅支持 Linux
+  # gso-max-size: 65536 # 通用分段卸载包的最大大小
+  # strict-route: true # 将所有连接路由到tun来防止泄漏，但你的设备将无法其他设备被访问
+  inet4-route-address: # 启用 auto-route 时使用自定义路由而不是默认路由
+    - 0.0.0.0/1
+    - 128.0.0.0/1
+  inet6-route-address: # 启用 auto-route 时使用自定义路由而不是默认路由
+    - "::/1"
+    - "8000::/1"
+  # endpoint-independent-nat: false # 启用独立于端点的 NAT
+  # include-interface: # 限制被路由的接口。默认不限制, 与 `exclude-interface` 冲突
+  #   - "lan0"
+  # exclude-interface: # 排除路由的接口, 与 `include-interface` 冲突
+  #   - "lan1"
+  # include-uid: # UID 规则仅在 Linux 下被支持，并且需要 auto-route
+  # - 0
+  # include-uid-range: # 限制被路由的的用户范围
+  # - 1000:9999
+  # exclude-uid: # 排除路由的的用户
+  #- 1000
+  # exclude-uid-range: # 排除路由的的用户范围
+  # - 1000:9999
+
+  # Android 用户和应用规则仅在 Android 下被支持
+  # 并且需要 auto-route
+
+  # include-android-user: # 限制被路由的 Android 用户
+  # - 0
+  # - 10
+  # include-package: # 限制被路由的 Android 应用包名
+  # - com.android.chrome
+  # exclude-package: # 排除被路由的 Android 应用包名
+  # - com.android.captiveportallogin
+
+proxies:
+  # vmess
+  # cipher支持 auto/aes-128-gcm/chacha20-poly1305/none
+  - name: "vmess"
+    type: vmess
+    server: server
+    port: 443
+    uuid: uuid
+    alterId: 32
+    cipher: auto
+    # udp: true
+    # tls: true
+    # fingerprint: xxxx
+    # client-fingerprint: chrome    # Available: "chrome","firefox","safari","ios","random", currently only support TLS transport in TCP/GRPC/WS/HTTP for VLESS/Vmess and trojan.
+    # skip-cert-verify: true
+    # servername: example.com # priority over wss host
+    # network: ws
+    # ws-opts:
+      # path: /path
+      # headers:
+      #   Host: v2ray.com
+      # max-early-data: 2048
+      # early-data-header-name: Sec-WebSocket-Protocol
+      # v2ray-http-upgrade: false
+
+proxy-groups:
+  # url-test 将按照 url 测试结果使用延迟最低节点
+  - name: "auto"
+    type: url-test
+    proxies:
+      - ss1
+      - ss2
+      - vmess1
+    # tolerance: 150
+    # lazy: true
+    # expected-status: 204 # 当健康检查返回状态码与期望值不符时，认为节点不可用
+    url: "https://cp.cloudflare.com/generate_204"
+    interval: 300
+
+  # fallback 将按照 url 测试结果按照节点顺序选择
+  - name: "fallback-auto"
+    type: fallback
+    proxies:
+      - ss1
+      - ss2
+      - vmess1
+    url: "https://cp.cloudflare.com/generate_204"
+    interval: 300
+
+  # load-balance 将按照算法随机选择节点
+  - name: "load-balance"
+    type: load-balance
+    proxies:
+      - ss1
+      - ss2
+      - vmess1
+    url: "https://cp.cloudflare.com/generate_204"
+    interval: 300
+  # strategy: consistent-hashing # 可选 round-robin 和 sticky-sessions
+
+  # select 用户自行选择节点
+  - name: Proxy
+    type: select
+    # disable-udp: true
+    proxies:
+      - ss1
+      - ss2
+      - vmess1
+      - auto
+
+rules:
+  - RULE-SET,rule1,REJECT
+  - IP-ASN,1,PROXY
+  - DOMAIN-REGEX,^abc,DIRECT
+  - DOMAIN-SUFFIX,baidu.com,DIRECT
+  - DOMAIN-KEYWORD,google,ss1
+  - IP-CIDR,1.1.1.1/32,ss1
+  - IP-CIDR6,2409::/64,DIRECT
