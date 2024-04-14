@@ -43,6 +43,10 @@ geo-update-interval: 24 # 更新间隔，单位：小时
 
 log-level: debug # 日志等级 silent/error/warning/info/debug
 
+external-controller: 0.0.0.0:9093 # RESTful API 监听地址
+# external-controller-tls: 0.0.0.0:9443 # RESTful API HTTPS 监听地址，需要配置 tls 部分配置文件
+secret: "123456" # `Authorization:Bearer ${secret}`
+
 # 配置 WEB UI 目录，使用 http://{{external-controller}}/ui 访问
 external-ui: /etc/mihomo/ui
 external-ui-name: xd
@@ -52,8 +56,8 @@ external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-
 tun:
   enable: false
   stack: system # gvisor/mixed
-  dns-hijack:
-    - 0.0.0.0:53 # 需要劫持的 DNS
+  #dns-hijack:
+  #  - 0.0.0.0:53 # 需要劫持的 DNS
   # auto-detect-interface: true # 自动识别出口网卡
   # auto-route: true # 配置路由表
   # mtu: 9000 # 最大传输单元
@@ -121,9 +125,7 @@ proxy-groups:
   - name: "auto"
     type: url-test
     proxies:
-      - ss1
-      - ss2
-      - vmess1
+      - vmess
     # tolerance: 150
     # lazy: true
     # expected-status: 204 # 当健康检查返回状态码与期望值不符时，认为节点不可用
@@ -134,9 +136,7 @@ proxy-groups:
   - name: "fallback-auto"
     type: fallback
     proxies:
-      - ss1
-      - ss2
-      - vmess1
+      - vmess
     url: "https://cp.cloudflare.com/generate_204"
     interval: 300
 
@@ -144,9 +144,7 @@ proxy-groups:
   - name: "load-balance"
     type: load-balance
     proxies:
-      - ss1
-      - ss2
-      - vmess1
+      - vmess
     url: "https://cp.cloudflare.com/generate_204"
     interval: 300
   # strategy: consistent-hashing # 可选 round-robin 和 sticky-sessions
@@ -156,16 +154,7 @@ proxy-groups:
     type: select
     # disable-udp: true
     proxies:
-      - ss1
-      - ss2
-      - vmess1
-      - auto
+      - vmess
 
 rules:
-  - RULE-SET,rule1,REJECT
-  - IP-ASN,1,PROXY
-  - DOMAIN-REGEX,^abc,DIRECT
-  - DOMAIN-SUFFIX,baidu.com,DIRECT
-  - DOMAIN-KEYWORD,google,ss1
-  - IP-CIDR,1.1.1.1/32,ss1
-  - IP-CIDR6,2409::/64,DIRECT
+  - MATCH,PROXY

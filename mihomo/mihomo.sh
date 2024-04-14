@@ -1,5 +1,13 @@
 #!/bin/bash
 
+echo "开始创建 /etc/mihomo 目录"
+sudo mkdir -p /etc/mihomo/config.yaml
+echo "/etc/mihomo 目录创建完成"
+
+echo "开始下载 mihomo 配置文件"
+https://raw.githubusercontent.com/rqysir609/docker/main/mihomo/config.yaml -O /etc/mihomo/config.yaml
+echo "mihomo 配置文件 下载完成"
+
 echo "开始下载 mihomo"
 wget https://github.com/MetaCubeX/mihomo/releases/download/v1.18.3/mihomo-linux-amd64-compatible-v1.18.3.gz
 echo "mihomo 下载完成"
@@ -15,10 +23,6 @@ echo "重命名完成"
 echo "开始添加执行权限"
 chmod u+x mihomo
 echo "执行权限添加完成"
-
-echo "开始创建 /etc/mihomo 目录"
-sudo mkdir -p /etc/mihomo
-echo "/etc/mihomo 目录创建完成"
 
 echo "开始复制 mihomo 到 /usr/local/bin"
 sudo cp mihomo /usr/local/bin
