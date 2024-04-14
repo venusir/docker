@@ -5,7 +5,7 @@ sudo mkdir -p /etc/mihomo
 echo "/etc/mihomo 目录创建完成"
 
 echo "开始下载 mihomo 配置文件"
-https://raw.githubusercontent.com/rqysir609/docker/main/mihomo/config.yaml -O /etc/mihomo/config.yaml
+wget https://raw.githubusercontent.com/rqysir609/docker/main/mihomo/config.yaml -O /etc/mihomo/config.yaml
 echo "mihomo 配置文件 下载完成"
 
 echo "开始下载 mihomo"
