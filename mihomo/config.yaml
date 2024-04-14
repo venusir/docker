@@ -157,4 +157,4 @@ proxy-groups:
       - vmess
 
 rules:
-  - MATCH,PROXY
+  - MATCH,Proxy
