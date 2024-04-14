@@ -31,9 +31,16 @@ echo "开始复制 mihomo 到 /usr/local/bin"
 cp mihomo /usr/local/bin
 echo "复制完成"
 
-echo "开始安装ui界面"
-git clone https://github.com/metacubex/metacubexd.git -b gh-pages /etc/mihomo/ui
-echo "ui界面安装完成"
+#echo "开始安装ui界面"
+#git clone https://github.com/metacubex/metacubexd.git -b gh-pages /etc/mihomo/ui
+#echo "ui界面安装完成"
+
+# 下载yacd面板
+wget https://github.com/haishanh/yacd/releases/download/v0.3.8/yacd.tar.xz
+
+# 解压并移动到指定目录
+tar -xf yacd.tar.xz
+mv public /etc/mihomo/yacd
 
 # echo "更新UI"
 # git -C /etc/mihomo/ui pull -r
