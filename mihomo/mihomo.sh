@@ -25,7 +25,7 @@ chmod u+x mihomo
 echo "执行权限添加完成"
 
 echo "开始复制 mihomo 到 /usr/local/bin"
-sudo cp mihomo /usr/local/bin
+cp mihomo /usr/local/bin
 echo "复制完成"
 
 echo "开始安装ui界面"
