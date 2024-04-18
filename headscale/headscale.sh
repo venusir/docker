@@ -42,7 +42,7 @@ acme.sh --set-default-ca --server letsencrypt
 acme.sh  --issue --dns dns_cf -d ${DOMAINNAME} -d *.${DOMAINNAME} -k ec-256
 
 # 安装证书
-acme.sh --install-cert -d ${DOMAINNAME} --ecc --key-file ${CERTPATH}/${DOMAINNAME}.key  --fullchain-file ${CERTPATH}/${DOMAINNAME}.crt --reloadcmd "systemctl force-reload nginx"
+acme.sh --install-cert -d *.venusir.cc --ecc --key-file /etc/cert/venusir.cc.key  --fullchain-file /etc/cert/venusir.cc.crt --reloadcmd "systemctl force-reload nginx"
 
 # -----------------------docker--------------------------------
 
