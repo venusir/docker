@@ -1,1 +1,0 @@
-docker cp  ./atlassian-extras-decoder-v2-3.4.1.jar e0c17bd90220:/opt/atlassian/confluence/confluence/WEB-INF/lib/atlassian-extras-decoder-v2-3.4.1.jar 
