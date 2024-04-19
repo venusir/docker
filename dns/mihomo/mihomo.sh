@@ -8,7 +8,7 @@ sudo mkdir -p /etc/mihomo
 echo "/etc/mihomo 目录创建完成"
 
 echo "开始下载 mihomo 配置文件"
-wget https://raw.githubusercontent.com/rqysir609/docker/main/mihomo/config.yaml -O /etc/mihomo/config.yaml
+wget https://raw.githubusercontent.com/venusir/docker/main/dns/mihomo/config.yaml -O /etc/mihomo/config.yaml
 echo "mihomo 配置文件 下载完成"
 
 echo "开始下载 mihomo"
@@ -35,6 +35,7 @@ echo "复制完成"
 #git clone https://github.com/metacubex/metacubexd.git -b gh-pages /etc/mihomo/ui
 #echo "ui界面安装完成"
 
+echo "开始安装ui界面"
 # 下载yacd面板
 wget https://github.com/haishanh/yacd/releases/download/v0.3.8/yacd.tar.xz
 
@@ -44,6 +45,7 @@ mv public /etc/mihomo/yacd
 
 # echo "更新UI"
 # git -C /etc/mihomo/ui pull -r
+echo "ui界面安装完成"
 
 echo "开始设置 转发"
 echo 'net.ipv4.ip_forward = 1' | tee -a /etc/sysctl.conf
