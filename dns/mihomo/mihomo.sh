@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# PVE LXC 需要开启CT的TUN
+
 apt-get update
 apt-get install git -y
 
